@@ -3,6 +3,7 @@ import { stdin as input, stdout as output } from "process";
 import { extractMessageContent, getContentType } from "baileys";
 import fs from "fs/promises";
 import fss from "fs";
+import path from "path";
 
 async function ask(question) {
     const rl = readline.createInterface({ input, output });
@@ -39,7 +40,8 @@ const getGroupAdmins = (participants) => {
 // Utilitary function: deletes auth folder.
 // Why?: When connection is fully lost, user has to manually delete auth folder to login again..
 async function deleteAuthFolder(callback){
-    const folder = process.cwd() + '/src/auth';
+    const folder = path.join(process.cwd(), 'src', 'auth');
+
     if(!fss.existsSync(folder)){
         return;
     }
@@ -47,8 +49,6 @@ async function deleteAuthFolder(callback){
     await fs.rm(folder, {recursive : true, force : true}, err =>{
         if(err){
             throw err;
-        }else{
-            callback();
         }
     })
 

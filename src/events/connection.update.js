@@ -50,10 +50,9 @@ export default async (sock, update) => {
 
             // Deletes the session.
             if (!shouldReconnect) {
-                deleteAuthFolder(() => {
-                    console.error(`Conexión cerrada permanentemente. Empareja nuevamente`);
-                    process.exit(1);
-                })
+                await deleteAuthFolder();
+                console.error("Conexión cerrada permanentemente, vuelve a emparejar.");
+                process.exit(1);
             }
 
             await startSock();
