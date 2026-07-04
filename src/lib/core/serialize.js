@@ -13,7 +13,7 @@ import {
 } from "baileys";
 
 export default async (messages, sock) => {
-  const m = {};
+  const m = {}; // Message object
 
   m.message = parseMessage(messages.message);
 

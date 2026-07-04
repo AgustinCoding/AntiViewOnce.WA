@@ -1,7 +1,7 @@
 import { startSock } from "../index.js";
 import { delay, DisconnectReason } from "baileys";
 import { Boom } from "@hapi/boom";
-import { ask } from "#lib/utils.js";
+import { ask, deleteAuthFolder } from "#lib/utils.js";
 import { setSock, clearSock } from "#lib/botState.js";
 
 let pairingRequested = false;
@@ -48,9 +48,12 @@ export default async (sock, update) => {
                 }`
             );
 
+            // Deletes the session.
             if (!shouldReconnect) {
-                console.error(`Conexión cerrada permanentemente. Eliminá la carpeta "auth" y volvé a emparejar.`);
-                process.exit(1);
+                deleteAuthFolder(() => {
+                    console.error(`Conexión cerrada permanentemente. Empareja nuevamente`);
+                    process.exit(1);
+                })
             }
 
             await startSock();
